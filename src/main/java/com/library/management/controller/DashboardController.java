@@ -23,7 +23,7 @@ public class DashboardController {
         return service.getTodayCount();
     }
 
-    @GetMapping("/last7days")
+    @GetMapping("/last-7-days")
     public DashboardCountDTO getLast7DaysCount(){
 
         return service.getLast7DaysCount();

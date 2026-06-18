@@ -43,11 +43,14 @@ import java.util.List;
             if (profilePhoto != null
                     && !profilePhoto.isEmpty()) {
 
-                String imageUrl =
+                /*String imageUrl =
                         awsS3Service.uploadFile(
                                 profilePhoto);
 
-                member.setProfilePhoto(imageUrl);
+                member.setProfilePhoto(imageUrl);*/
+
+                member.setProfilePhoto(
+                        profilePhoto.getOriginalFilename());
             }
 
             Member saved =
@@ -93,11 +96,12 @@ import java.util.List;
             if (profilePhoto != null
                     && !profilePhoto.isEmpty()) {
 
-                String imageUrl =
+                /*String imageUrl =
                         awsS3Service.uploadFile(
-                                profilePhoto);
+                                profilePhoto);*/
 
-                member.setProfilePhoto(imageUrl);
+              //  member.setProfilePhoto(imageUrl);
+                member.setProfilePhoto(profilePhoto.getOriginalFilename());
             }
 
             Member updated =

@@ -15,11 +15,11 @@ public class ResourceRequest {
 
     private String edition;
 
-    private List<String> authors;
+    private List<Long> authorIds;
 
-    private List<String> categories;
+    private List<Long> categoryIds;
 
-    private List<String> publishers;
+    private Long publisherId;
 
     private Long resourceTypeId;
 

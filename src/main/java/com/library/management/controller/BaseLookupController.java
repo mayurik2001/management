@@ -6,7 +6,9 @@ import com.library.management.service.BaseLookupService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class BaseLookupController<T extends BaseLookupEntity> {
 
@@ -39,10 +41,20 @@ public abstract class BaseLookupController<T extends BaseLookupEntity> {
     }
 
     @PutMapping("/{id}")
-    public T update(@PathVariable Long id, @RequestBody NameRequest request) {
+    public ResponseEntity<Map<String, Object>> update(
+            @PathVariable Long id,
+            @RequestBody NameRequest request) {
+
         T entity = createEntity();
         entity.setName(request.getName());
-        return service.update(id, entity);
+
+        T updatedEntity = service.update(id, entity);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Updated successfully");
+        response.put("data", updatedEntity);
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

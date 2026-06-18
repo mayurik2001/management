@@ -29,29 +29,25 @@ public class Resource {
 
     private String edition;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "resource_authors",
-            joinColumns = @JoinColumn(name = "resource_id")
+    @ManyToMany
+    @JoinTable(
+            name = "resource_author",
+            joinColumns = @JoinColumn(name = "resource_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
     )
-    @Column(name = "author_name")
-    private List<String> authors;
+    private List<Author> authors;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "resource_categories",
-            joinColumns = @JoinColumn(name = "resource_id")
+    @ManyToMany
+    @JoinTable(
+            name = "resource_category",
+            joinColumns = @JoinColumn(name = "resource_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    @Column(name = "category_name")
-    private List<String> categories;
+    private List<Category> categories;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "resource_publishers",
-            joinColumns = @JoinColumn(name = "resource_id")
-    )
-    @Column(name = "publisher_name")
-    private List<String> publishers;
+    @ManyToOne
+    @JoinColumn(name = "publisher_id")
+    private Publisher publisher;
 
     @ManyToOne
     @JoinColumn(name = "resource_type_id")

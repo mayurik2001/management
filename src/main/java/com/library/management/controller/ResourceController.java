@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/lms/resourses")
+@RequestMapping("/lms/resources")
 public class ResourceController {
 
     private final ResourceService resourceService;

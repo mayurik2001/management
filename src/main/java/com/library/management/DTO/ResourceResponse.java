@@ -22,7 +22,7 @@ public class ResourceResponse {
 
     private List<String> categories;
 
-    private List<String> publishers;
+    private String publisher;
 
     private String resourceTypeName;
 

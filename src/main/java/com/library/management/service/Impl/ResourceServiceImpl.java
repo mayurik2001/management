@@ -2,6 +2,9 @@ package com.library.management.service.Impl;
 
 import com.library.management.DTO.ResourceRequest;
 import com.library.management.DTO.ResourceResponse;
+import com.library.management.entity.Author;
+import com.library.management.entity.Category;
+import com.library.management.entity.Publisher;
 import com.library.management.entity.Resource;
 import com.library.management.Exception.ResourceNotFoundException;
 import com.library.management.repo.*;
@@ -18,19 +21,26 @@ public class ResourceServiceImpl implements ResourceService {
     private final LanguageRepository languageRepository;
     private final RoomRepository roomRepository;
     private final RackRepository rackRepository;
+    private final AuthorRepository authorRepository;
+    private final PublisherRepository publisherRepository;
+    private final CategoryRepository categoryRepository;
 
     public ResourceServiceImpl(
             ResourceRepository resourceRepository,
             ResourceTypeRepository resourceTypeRepository,
             LanguageRepository languageRepository,
-            RoomRepository roomRepository,
-            RackRepository rackRepository) {
+            RoomRepository roomRepository, RackRepository rackRepository,
+            AuthorRepository authorRepository,PublisherRepository publisherRepository,
+            CategoryRepository categoryRepository) {
 
         this.resourceRepository = resourceRepository;
         this.resourceTypeRepository = resourceTypeRepository;
         this.languageRepository = languageRepository;
         this.roomRepository = roomRepository;
         this.rackRepository = rackRepository;
+        this.authorRepository=authorRepository;
+        this.publisherRepository=publisherRepository;
+        this.categoryRepository=categoryRepository;
     }
 
     @Override
@@ -130,14 +140,23 @@ public class ResourceServiceImpl implements ResourceService {
         resource.setEdition(
                 request.getEdition());
 
-        resource.setAuthors(
-                request.getAuthors());
+        List<Author> authors =
+                authorRepository.findAllById(
+                        request.getAuthorIds());
 
-        resource.setCategories(
-                request.getCategories());
+        List<Category> categories =
+                categoryRepository.findAllById(
+                        request.getCategoryIds());
 
-        resource.setPublishers(
-                request.getPublishers());
+        Publisher publisher =
+                publisherRepository.findById(
+                                request.getPublisherId())
+                        .orElseThrow(() ->
+                                new RuntimeException("Publisher not found"));
+
+        resource.setAuthors(authors);
+        resource.setCategories(categories);
+        resource.setPublisher(publisher);
 
         resource.setQuantity(
                 request.getQuantity());
@@ -193,14 +212,22 @@ public class ResourceServiceImpl implements ResourceService {
                 resource.getEdition());
 
         response.setAuthors(
-                resource.getAuthors());
+                resource.getAuthors()
+                        .stream()
+                        .map(Author::getName)
+                        .toList()
+        );
 
         response.setCategories(
-                resource.getCategories());
+                resource.getCategories()
+                        .stream()
+                        .map(Category::getName)
+                        .toList()
+        );
 
-        response.setPublishers(
-                resource.getPublishers());
-
+        response.setPublisher(
+                resource.getPublisher().getName()
+        );
         response.setQuantity(
                 resource.getQuantity());
 
